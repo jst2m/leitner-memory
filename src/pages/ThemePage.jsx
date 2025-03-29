@@ -53,7 +53,7 @@ export default function ThemePage() {
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center">
           <AddCardFormPage
             themeId={parseInt(themeId, 10)}
-            levelId={theme.levels?.[0]?.id} // Par défaut, on ajoute la carte au premier niveau s'il existe
+            levelId={theme.levels?.[0]?.id} // par defaut, on ajoute la carte au premier niveau s'il existe
             onClose={() => setShowAddCardForm(false)}
           />
         </div>

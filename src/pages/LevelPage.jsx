@@ -14,7 +14,7 @@ export default function LevelPage() {
     return (
       <div className="min-h-screen bg-black text-white p-4">
         <p>Theme not found</p>
-        <button onClick={() => navigate(-1)} className="text-purple-400 mt-4">&larr; Back</button>
+        <button onClick={() => navigate(-1)} className="text-purple-400 mt-4">&larr; Retour</button>
       </div>
     );
   }
@@ -33,7 +33,7 @@ export default function LevelPage() {
     <div className="min-h-screen bg-black text-white p-4 md:p-8">
       <button onClick={() => navigate(-1)} className="text-purple-400 mb-4">&larr; Back</button>
       <h1 className="text-2xl font-bold mb-2">{theme.name} - {level.name}</h1>
-      <p className="mb-4">Interval: Every {level.interval} day(s)</p>
+      <p className="mb-4">Interval: tous les {level.interval} jour(s)</p>
       {level.cards && level.cards.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {level.cards.map((card) => (
@@ -41,7 +41,7 @@ export default function LevelPage() {
           ))}
         </div>
       ) : (
-        <p>No cards in this level.</p>
+        <p>Pas de cartes à reviser à ce niveau ^^.</p>
       )}
     </div>
   );

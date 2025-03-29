@@ -13,7 +13,7 @@ export default function SpacedRepetitionPage() {
     <div className="min-h-screen bg-black text-white p-4 md:p-8">
       <h1 className="text-xl font-bold mb-4">Spaced Repetition</h1>
 
-      {/* Calendrier simplifié */}
+      {/* potentiel calendrier */}
       <div className="flex space-x-2 mb-4">
         {["M", "T", "W", "T", "F", "S", "S"].map((day, index) => (
           <div
@@ -25,13 +25,11 @@ export default function SpacedRepetitionPage() {
         ))}
       </div>
 
-      {/* Liste des thèmes avec niveaux cliquables */}
       <ul className="mb-4">
         {themes.map((theme) => (
           <li key={theme.id} className="mb-4 border p-2 rounded">
             <div className="flex justify-between items-center">
               <div className="font-bold text-purple-400">{theme.name}</div>
-              {/* Lien vers la page du thème complet */}
               <Link to={`/themes/${theme.id}`} className="text-sm text-purple-300 underline">
                 View Cards
               </Link>
@@ -53,7 +51,7 @@ export default function SpacedRepetitionPage() {
         ))}
       </ul>
 
-      {/* Bouton pour ajouter un nouveau thème */}
+      {/* btn ajouter un nouveau thème */}
       <button className="text-sm text-purple-400 underline mb-4" onClick={() => setShowAddForm(true)}>
         Add New Theme
       </button>
@@ -63,7 +61,7 @@ export default function SpacedRepetitionPage() {
         </div>
       )}
 
-      {/* Bouton pour démarrer la révision */}
+      {/*  démarrer la révision */}
       <button
         onClick={() => navigate("/review")}
         className="bg-purple-600 text-white w-full py-2 rounded font-bold"

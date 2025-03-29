@@ -282,9 +282,18 @@ export function LeitnerProvider({ children }) {
     },
   ]);
 
+  const addCategory = (name) => {
+    const newTheme = {
+      id: Date.now(),
+      name,
+      levels: []
+    };
+    setThemes((prevThemes) => [...prevThemes, newTheme]);
+  };
+
   const addCardToLevel = (themeId, levelId, front, back) => {
-    setThemes((prev) =>
-      prev.map((theme) => {
+    setThemes((prevThemes) =>
+      prevThemes.map((theme) => {
         if (theme.id === themeId) {
           const updatedLevels = theme.levels.map((lvl) => {
             if (lvl.id === levelId) {
@@ -292,7 +301,7 @@ export function LeitnerProvider({ children }) {
                 id: Date.now(),
                 front,
                 back,
-                level: lvl.id,
+                level: lvl.cards.length > 0 ? lvl.cards[0].level : 1,
                 nextReviewDate: null,
               };
               return { ...lvl, cards: [...lvl.cards, newCard] };
@@ -306,52 +315,71 @@ export function LeitnerProvider({ children }) {
     );
   };
 
-  const addCategory = (name) => {
-    const newTheme = { 
-      id: Date.now(),  // ou une autre méthode pour générer un ID unique
-      name, 
-      levels: [] 
-    };
-    setThemes((prevThemes) => [...prevThemes, newTheme]);
-  };
-  
-
   const correctAnswer = (cardId) => {
-    setThemes((prev) =>
-      prev.map((theme) => ({
-        ...theme,
-        levels: theme.levels.map((lvl) => ({
-          ...lvl,
-          cards: lvl.cards.map((card) => {
-            if (card.id === cardId) {
-              const newLevel = card.level + 1;
-              const interval = getInterval(newLevel);
-              const nextReviewDate = addDays(new Date(), interval);
-              return { ...card, level: newLevel, nextReviewDate };
-            }
-            return card;
-          }),
-        })),
-      }))
+    setThemes((prevThemes) =>
+      prevThemes.map((theme) => {
+        let cardFound = null;
+        let oldLevelIndex = null;
+        const newLevels = theme.levels.map((lvl, index) => {
+          const cardIndex = lvl.cards.findIndex((card) => card.id === cardId);
+          if (cardIndex !== -1) {
+            cardFound = lvl.cards[cardIndex];
+            oldLevelIndex = index;
+            const newCards = [...lvl.cards];
+            newCards.splice(cardIndex, 1);
+            return { ...lvl, cards: newCards };
+          }
+          return lvl;
+        });
+
+        if (cardFound !== null && oldLevelIndex !== null) {
+          const currentLevelNumber = oldLevelIndex + 1;
+          let newLevelNumber = currentLevelNumber + 2;
+          if (newLevelNumber > theme.levels.length) {
+            newLevelNumber = theme.levels.length;
+          }
+          const interval = getInterval(newLevelNumber);
+          const nextReviewDate = addDays(new Date(), interval);
+          cardFound = { ...cardFound, level: newLevelNumber, nextReviewDate };
+
+          const targetIndex = newLevelNumber - 1;
+          newLevels[targetIndex].cards = [...newLevels[targetIndex].cards, cardFound];
+        }
+        return { ...theme, levels: newLevels };
+      })
     );
   };
 
   const wrongAnswer = (cardId) => {
-    setThemes((prev) =>
-      prev.map((theme) => ({
-        ...theme,
-        levels: theme.levels.map((lvl) => ({
-          ...lvl,
-          cards: lvl.cards.map((card) => {
-            if (card.id === cardId) {
-              const newLevel = card.level > 1 ? card.level - 1 : 1;
-              const nextReviewDate = addDays(new Date(), getInterval(newLevel));
-              return { ...card, level: newLevel, nextReviewDate };
-            }
-            return card;
-          }),
-        })),
-      }))
+    setThemes((prevThemes) =>
+      prevThemes.map((theme) => {
+        let cardFound = null;
+        let oldLevelIndex = null;
+        const newLevels = theme.levels.map((lvl, index) => {
+          const cardIndex = lvl.cards.findIndex((card) => card.id === cardId);
+          if (cardIndex !== -1) {
+            cardFound = lvl.cards[cardIndex];
+            oldLevelIndex = index;
+            const newCards = [...lvl.cards];
+            newCards.splice(cardIndex, 1);
+            return { ...lvl, cards: newCards };
+          }
+          return lvl;
+        });
+
+        if (cardFound !== null && oldLevelIndex !== null) {
+          const currentLevelNumber = oldLevelIndex + 1;
+          let newLevelNumber = currentLevelNumber - 1;
+          if (newLevelNumber < 1) newLevelNumber = 1;
+          const interval = getInterval(newLevelNumber);
+          const nextReviewDate = addDays(new Date(), interval);
+          cardFound = { ...cardFound, level: newLevelNumber, nextReviewDate };
+
+          const targetIndex = newLevelNumber - 1;
+          newLevels[targetIndex].cards = [...newLevels[targetIndex].cards, cardFound];
+        }
+        return { ...theme, levels: newLevels };
+      })
     );
   };
 
@@ -401,3 +429,5 @@ export function LeitnerProvider({ children }) {
     </LeitnerContext.Provider>
   );
 }
+
+export default LeitnerProvider;
