@@ -412,6 +412,52 @@ export function LeitnerProvider({ children }) {
     return intervals[level - 1] || 64;
   }
 
+  const updateCard = (themeId, cardId, updatedData) => {
+    setThemes((prevThemes) =>
+      prevThemes.map((theme) => {
+        if (theme.id === themeId) {
+          const updatedLevels = theme.levels.map((lvl) => {
+            const updatedCards = lvl.cards.map((card) =>
+              card.id === cardId ? { ...card, ...updatedData } : card
+            );
+            return { ...lvl, cards: updatedCards };
+          });
+          return { ...theme, levels: updatedLevels };
+        }
+        return theme;
+      })
+    );
+  };
+  
+  const deleteCard = (themeId, cardId) => {
+    setThemes((prevThemes) =>
+      prevThemes.map((theme) => {
+        if (theme.id === themeId) {
+          const updatedLevels = theme.levels.map((lvl) => {
+            const updatedCards = lvl.cards.filter((card) => card.id !== cardId);
+            return { ...lvl, cards: updatedCards };
+          });
+          return { ...theme, levels: updatedLevels };
+        }
+        return theme;
+      })
+    );
+  };
+  
+  const updateCategory = (themeId, newName) => {
+    setThemes((prevThemes) =>
+      prevThemes.map((theme) =>
+        theme.id === themeId ? { ...theme, name: newName } : theme
+      )
+    );
+  };
+  
+  const deleteCategory = (themeId) => {
+    setThemes((prevThemes) =>
+      prevThemes.filter((theme) => theme.id !== themeId)
+    );
+  };
+
   return (
     <LeitnerContext.Provider
       value={{
@@ -423,6 +469,10 @@ export function LeitnerProvider({ children }) {
         startReview,
         addDays,
         getInterval,
+        deleteCard,
+        updateCategory,
+        deleteCategory
+
       }}
     >
       {children}
