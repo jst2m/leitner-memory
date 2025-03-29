@@ -10,8 +10,9 @@ function renderContent(content) {
         <img
           src={content.content}
           alt="Card media"
-          className="max-h-full object-contain"
+          className="card-image"
         />
+
       );
     }
   }

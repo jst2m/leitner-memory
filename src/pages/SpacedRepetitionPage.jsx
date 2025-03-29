@@ -10,7 +10,7 @@ export default function SpacedRepetitionPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-black text-white p-4 md:p-8">
+    <div className="w-full min-h-screen bg-black text-white p-4 md:p-8">
       <h1 className="text-xl font-bold mb-4">Spaced Repetition</h1>
       <div className="flex space-x-2 mb-4">
         {["M", "T", "W", "T", "F", "S", "S"].map((day, index) => (

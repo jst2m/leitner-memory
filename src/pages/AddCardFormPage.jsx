@@ -24,13 +24,15 @@ export default function AddCardFormPage({ themeId, levelId, onClose }) {
       frontContent = { type: "text", content: frontText };
     } else {
       if (frontFile) {
-        frontContent = { type: "image", content: frontFile.name };
+        const fileURL = URL.createObjectURL(frontFile);
+        frontContent = { type: "image", content: fileURL };
       } else if (frontUrl) {
         frontContent = { type: "image", content: frontUrl };
       } else {
         return;
       }
     }
+    
 
     let backContent = null;
     if (backType === "text") {
