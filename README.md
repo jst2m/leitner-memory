@@ -55,23 +55,16 @@ Voici le README mis à jour de notre projet **Spaced Repetition**. Ce projet est
    git clone https://github.com/votre-utilisateur/spaced-repetition.git
    cd spaced-repetition
 Installer les dépendances :
-
-bash
-Copier
 npm install
 # ou
 yarn install
 2.3 Lancement en Mode Développement
-bash
-Copier
 npm run dev
 # ou
 yarn dev
 L’application sera accessible via http://localhost:3000.
 
 2.4 Construction pour la Production
-bash
-Copier
 npm run build
 # ou
 yarn build
