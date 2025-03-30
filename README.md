@@ -1,52 +1,67 @@
 
-### Fonctionnalités
-
-- **Création et Gestion des Thèmes et Cartes**
-  - **Thèmes / Catégories :**  
-    - Les utilisateurs peuvent ajouter de nouveaux thèmes.
-    - Chaque thème peut être modifié ou supprimé grâce à une modale d’édition (bouton ✏️ à côté du nom du thème).
-  - **Cartes de Révision :**  
-    - Chaque thème possède plusieurs niveaux (jusqu’à 6 niveaux) avec des intervalles de répétition croissants.
-    - Une carte peut contenir du texte et/ou une image (affichage via `URL.createObjectURL()` pour un aperçu).
-    - Les cartes peuvent être ajoutées via un formulaire dédié et sont affichées selon leur niveau.
-
-- **Répétition Espacée et Révision**
-  - Lors d’une révision (page "Today’s Test"), si l'utilisateur clique sur **"Trouvé!"**, la carte passe deux niveaux plus haut.
-  - Si l'utilisateur clique sur **"Mince!"**, la carte recule d’un niveau.
-  - Le déplacement de la carte est effectif : elle disparaît du niveau d’origine et apparaît dans le nouveau niveau, visible aussi bien sur la page "Review" que sur la page du thème.
-
-- **Interface Responsive**
-  - L’application utilise Tailwind CSS pour s’adapter aux différentes tailles d’écran (mobile et desktop).
-  - Les niveaux sont affichés sous forme de liens cliquables qui indiquent le nombre de cartes contenues dans chacun.
-
-- **Fonctionnement Hors-Ligne**
-  - Un Service Worker (fichier `public/service-worker.js`) met en cache les ressources essentielles pour que l’application fonctionne sans connexion Internet.
-  - Le fichier `public/manifest.json` permet d’installer l’application en tant que Progressive Web App (PWA).
+Voici le README mis à jour de notre projet **Spaced Repetition**. Ce projet est une application de mémorisation basée sur la répétition espacée. Elle permet de créer, modifier, déplacer et réviser des cartes réparties par thèmes et niveaux. L'application fonctionne hors-ligne et offre une interface responsive adaptée à la fois aux mobiles et aux desktops.
 
 ---
 
-### Installation et Déploiement
+## 1. Fonctionnalités
 
-#### Prérequis
+### 1.1 Gestion des Thèmes et des Cartes
+
+- **Thèmes / Catégories :**
+  - Les utilisateurs peuvent ajouter de nouveaux thèmes.
+  - Chaque thème peut être modifié ou supprimé via une modale d’édition (bouton ✏️ à côté du nom du thème).
+
+- **Cartes de Révision :**
+  - Chaque thème comprend jusqu’à 6 niveaux avec des intervalles de répétition croissants.
+  - Une carte peut contenir du texte et/ou des images (les images s'affichent grâce à l’API `URL.createObjectURL()` pour un aperçu).
+  - Les utilisateurs peuvent ajouter de nouvelles cartes via un formulaire dédié.
+  - **Edition & Déplacement :**
+    - Depuis la page de révision, chaque carte intègre un bouton d’édition (✏️) qui ouvre une modale permettant de modifier le contenu (front et back), de déplacer la carte manuellement vers un autre niveau, ou de la supprimer.
+
+### 1.2 Répétition Espacée et Révision
+
+- **Révision :**
+  - Dans la page "Today’s Test", les cartes à réviser sont affichées.
+  - Si l'utilisateur clique sur **"Trouvé!"**, la carte passe deux niveaux plus haut (déplacement effectif dans le système).
+  - Si l'utilisateur clique sur **"Mince!"**, la carte recule d’un niveau.
+  - Ces déplacements se reflètent sur la page de révision et dans la vue détaillée d’un thème.
+
+### 1.3 Interface Responsive
+
+- Utilisation de **Tailwind CSS** pour garantir une interface claire et adaptée aux mobiles et aux desktops.
+- Les niveaux de chaque thème sont affichés sous forme de liens cliquables indiquant le nombre de cartes présentes.
+
+### 1.4 Fonctionnement Hors-Ligne
+
+- **Service Worker :**  
+  Le fichier `public/service-worker.js` met en cache les ressources essentielles pour permettre l’utilisation de l’application même sans connexion Internet.
+- **Manifest :**  
+  Le fichier `public/manifest.json` permet d’installer l’application en tant que Progressive Web App (PWA).
+
+---
+
+## 2. Installation et Déploiement
+
+### 2.1 Prérequis
 
 - Node.js (version LTS recommandée)
 - npm ou yarn
 
-#### Installation
+### 2.2 Installation
 
-1. Clonez le dépôt :
+1. **Cloner le dépôt :**
 
    ```bash
    git clone https://github.com/votre-utilisateur/spaced-repetition.git
    cd spaced-repetition
-Installez les dépendances :
+Installer les dépendances :
 
 bash
 Copier
 npm install
 # ou
 yarn install
-Lancement en Mode Développement
+2.3 Lancement en Mode Développement
 bash
 Copier
 npm run dev
@@ -54,90 +69,88 @@ npm run dev
 yarn dev
 L’application sera accessible via http://localhost:3000.
 
-Construction pour la Production
+2.4 Construction pour la Production
 bash
 Copier
 npm run build
 # ou
 yarn build
-Utilisation
-Page Principale (SpacedRepetition) :
+3. Utilisation
+3.1 Page Principale (SpacedRepetition)
+Affichage des Thèmes :
 
-Visualisez la liste de tous les thèmes, avec leurs niveaux et le nombre de cartes par niveau.
+Affiche la liste complète des thèmes, avec pour chaque thème ses niveaux et le nombre de cartes dans chaque niveau.
 
-Pour chaque thème, vous pouvez :
-
-Consulter les cartes via le lien "View Cards".
-
-Modifier ou supprimer le thème en cliquant sur l’icône ✏️ (ce qui ouvre une modale d’édition).
+Chaque thème propose un lien "View Cards" pour consulter les cartes et un bouton d’édition (✏️) pour modifier ou supprimer le thème via une modale.
 
 Un bouton "Add New Theme" permet d’ajouter un nouveau thème via une modale dédiée.
 
-Page du Thème (ThemePage) :
+3.2 Page du Thème (ThemePage)
+Affichage des Cartes :
 
-Vous pouvez voir toutes les cartes d’un thème, regroupées par niveaux.
+Les cartes du thème sont regroupées par niveaux.
 
-Un bouton "Add New Card" permet d’ouvrir une modale pour ajouter une nouvelle carte.
+Un bouton "Add New Card" ouvre une modale pour ajouter une nouvelle carte.
 
-Page de Révision (Review) :
+3.3 Page de Révision (Review)
+Révision des Cartes :
 
-Les cartes dues à la révision sont affichées.
+Affiche les cartes dues à la révision.
 
-En cliquant sur "Trouvé!", la carte passe deux niveaux plus haut.
+"Trouvé!" : la carte passe deux niveaux plus haut.
 
-En cliquant sur "Mince!", la carte recule d’un niveau.
+"Mince!" : la carte recule d’un niveau.
 
-Chaque carte possède également un bouton d’édition (✏️) pour modifier son contenu, la déplacer manuellement ou la supprimer.
+Chaque carte inclut un bouton d’édition (✏️) qui ouvre une modale permettant de modifier le contenu, de déplacer la carte manuellement vers un autre niveau ou de la supprimer.
 
-Architecture et Organisation du Code
-Framework :
-L’application est développée en React.
+4. Architecture et Organisation du Code
+4.1 Framework et Style
+React pour la création de l’application.
 
-Style :
-Nous utilisons Tailwind CSS pour un style moderne et une responsivité optimale.
+Tailwind CSS pour le style et la responsivité.
 
-Navigation :
-La navigation entre les pages est gérée par React Router.
+4.2 Navigation
+React Router gère la navigation entre les pages (SpacedRepetition, ThemePage, Review, etc.).
 
-Gestion des Données :
+4.3 Gestion des Données
 Le contexte LeitnerContext centralise la gestion des thèmes, des niveaux et des cartes.
-Il contient aussi toutes les fonctions pour ajouter, mettre à jour, supprimer, et déplacer les cartes et les thèmes.
 
-Composants Principaux :
+Ce contexte fournit également toutes les fonctions d’ajout, de mise à jour, de suppression, de déplacement et de révision des cartes et des thèmes.
 
-Card.jsx : Affiche une carte.
+4.4 Composants Clés
+Card.jsx : Affichage basique d’une carte.
 
-ReviewCard.jsx : Affiche une carte avec ses boutons d’édition et de révision.
+ReviewCard.jsx : Affichage d’une carte dans la page de révision avec boutons de révision et d’édition.
 
 AddCardFormPage.jsx : Formulaire pour ajouter une nouvelle carte.
 
 AddThemeFormPage.jsx : Formulaire pour ajouter un nouveau thème.
 
-EditThemeModal.jsx : Modale pour éditer ou supprimer un thème.
-
 EditCardModal.jsx : Modale pour éditer, déplacer ou supprimer une carte.
 
-Fonctionnalités Hors-Ligne
+EditThemeModal.jsx : Modale pour éditer ou supprimer un thème.
+
+5. Fonctionnalités Hors-Ligne
 Service Worker :
-Le fichier public/service-worker.js permet de mettre en cache les ressources essentielles afin d’assurer le fonctionnement de l’application sans connexion Internet.
+Le fichier public/service-worker.js met en cache les ressources essentielles pour assurer le fonctionnement de l’application sans connexion.
 
 Manifest :
-Le fichier public/manifest.json configure les métadonnées pour l’installation de l’application en tant que Progressive Web App (PWA).
+Le fichier public/manifest.json contient les métadonnées nécessaires pour installer l’application en tant que PWA.
 
-Modales et Édition
-Édition de Carte :
-Dans la page de révision, chaque carte possède un bouton d’édition (✏️) qui ouvre une modale (EditCardModal.jsx) permettant de :
+6. Modales et Edition
+6.1 Edition de Carte
+Dans la page de révision, chaque carte possède un bouton d’édition (✏️) qui ouvre la modale EditCardModal.jsx.
 
-Modifier le contenu (front et back).
+La modale permet à l’utilisateur de :
 
-Déplacer la carte en modifiant son niveau.
+Modifier le contenu de la carte (front et back).
+
+Déplacer manuellement la carte vers un autre niveau (via un sélecteur).
 
 Supprimer la carte.
 
-Édition de Thème :
-Dans la liste des thèmes, chaque thème a un bouton d’édition (✏️) qui ouvre la modale EditThemeModal.jsx pour :
+6.2 Edition de Thème
+Dans la page principale, chaque thème dispose d’un bouton d’édition (✏️) qui ouvre la modale EditThemeModal.jsx.
 
-Modifier le nom du thème.
-
-Supprimer le thème.
+Cette modale permet à l’utilisateur de modifier le nom du thème ou de le supprimer.
 

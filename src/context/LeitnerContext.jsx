@@ -341,7 +341,6 @@ export function LeitnerProvider({ children }) {
           const interval = getInterval(newLevelNumber);
           const nextReviewDate = addDays(new Date(), interval);
           cardFound = { ...cardFound, level: newLevelNumber, nextReviewDate };
-
           const targetIndex = newLevelNumber - 1;
           newLevels[targetIndex].cards = [...newLevels[targetIndex].cards, cardFound];
         }
@@ -374,7 +373,6 @@ export function LeitnerProvider({ children }) {
           const interval = getInterval(newLevelNumber);
           const nextReviewDate = addDays(new Date(), interval);
           cardFound = { ...cardFound, level: newLevelNumber, nextReviewDate };
-
           const targetIndex = newLevelNumber - 1;
           newLevels[targetIndex].cards = [...newLevels[targetIndex].cards, cardFound];
         }
@@ -428,7 +426,7 @@ export function LeitnerProvider({ children }) {
       })
     );
   };
-  
+
   const deleteCard = (themeId, cardId) => {
     setThemes((prevThemes) =>
       prevThemes.map((theme) => {
@@ -443,7 +441,7 @@ export function LeitnerProvider({ children }) {
       })
     );
   };
-  
+
   const updateCategory = (themeId, newName) => {
     setThemes((prevThemes) =>
       prevThemes.map((theme) =>
@@ -451,10 +449,37 @@ export function LeitnerProvider({ children }) {
       )
     );
   };
-  
+
   const deleteCategory = (themeId) => {
     setThemes((prevThemes) =>
       prevThemes.filter((theme) => theme.id !== themeId)
+    );
+  };
+
+  const moveCard = (themeId, cardId, newLevelNumber) => {
+    setThemes((prevThemes) =>
+      prevThemes.map((theme) => {
+        if (theme.id !== themeId) return theme;
+        let cardFound = null;
+        const newLevels = theme.levels.map((lvl) => {
+          const cardIndex = lvl.cards.findIndex((card) => card.id === cardId);
+          if (cardIndex !== -1) {
+            cardFound = lvl.cards[cardIndex];
+            const newCards = [...lvl.cards];
+            newCards.splice(cardIndex, 1);
+            return { ...lvl, cards: newCards };
+          }
+          return lvl;
+        });
+        if (cardFound) {
+          const interval = getInterval(newLevelNumber);
+          const nextReviewDate = addDays(new Date(), interval);
+          cardFound = { ...cardFound, level: newLevelNumber, nextReviewDate };
+          const targetIndex = newLevelNumber - 1;
+          newLevels[targetIndex].cards = [...newLevels[targetIndex].cards, cardFound];
+        }
+        return { ...theme, levels: newLevels };
+      })
     );
   };
 
@@ -469,10 +494,11 @@ export function LeitnerProvider({ children }) {
         startReview,
         addDays,
         getInterval,
+        updateCard,
         deleteCard,
         updateCategory,
-        deleteCategory
-
+        deleteCategory,
+        moveCard,
       }}
     >
       {children}

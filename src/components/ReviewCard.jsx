@@ -44,17 +44,19 @@ export default function ReviewCard({ card, themeId, onCorrect, onWrong }) {
       }`}
     >
       <Card front={card.front} back={card.back} />
-      {/* Bouton d'édition */}
+      
       <button
         onClick={() => setShowEditModal(true)}
         className="absolute top-2 right-2 text-gray-300"
       >
         ✏️
       </button>
+      
       {showEditModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center">
+        <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
           <EditCardModal
             card={card}
+            themeId={themeId} 
             onSave={handleSave}
             onDelete={() => {
               deleteCard(themeId, card.id);
@@ -64,7 +66,7 @@ export default function ReviewCard({ card, themeId, onCorrect, onWrong }) {
           />
         </div>
       )}
-      {/* Boutons de révision */}
+      
       <div className="flex justify-around mt-2">
         <button
           onClick={handleCorrect}
